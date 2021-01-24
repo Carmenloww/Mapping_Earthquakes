@@ -68,8 +68,15 @@ L.control.layers(baseMaps).addTo(map);
 let airportData = "https://raw.githubusercontent.com/carmenloww/Mapping_Earthquakes/main/majorAirports.json";
 
 // Grabbing our GeoJSON data.
-d3.json(torontoData).then(function(data) {
-    console.log(data);
-  // Creating a GeoJSON layer with the retrieved data.
-  L.geoJson(data).addTo(map)
-  });
+d3.json(airportData).then(function(data) {
+  console.log(data);
+// Creating a GeoJSON layer with the retrieved data.
+L.geoJson(data, {
+    // We turn each feature into a marker on the map.
+    onEachFeature: function(feature, layer) {
+      console.log(layer);
+      //return L.marker(latlng)
+      layer.bindPopup("<h2>" + "Airport Code: " + feature.properties.faa + "</h2> <hr> <h3>" + "Airport Name: " + feature.properties.name + "</h3>");
+    }    
+}).addTo(map);
+});
